@@ -18,7 +18,7 @@ namespace CelebsApp.Controllers.ApiControllers
             celebRepo = new CelebRepo();
         }
         public IEnumerable<Celeb> GetSCelebsData()
-        {
+        {// Test
             return celebRepo.GetCelebs();
         }
 
