@@ -140,10 +140,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\CelebsDb.mdf" />
-    <Content Include="App_Data\CelebsDb_log.ldf">
-      <DependentUpon>CelebsDb.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -170,19 +166,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiControllers\ApiCelebsController.cs" />
     <Compile Include="Controllers\MvcControllers\HomeController.cs" />
-    <Compile Include="Core\DataLayer\CelebContext.cs" />
-    <Compile Include="Core\Models\Celeb.cs" />
-    <Compile Include="Core\Models\ResponseObj.cs" />
-    <Compile Include="Core\Repositories\Implementations\CelebRepo.cs" />
-    <Compile Include="Core\Repositories\Interfaces\ICeleb.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711131243551_init.cs" />
-    <Compile Include="Migrations\201711131243551_init.Designer.cs">
-      <DependentUpon>201711131243551_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -205,11 +191,8 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711131243551_init.resx">
-      <DependentUpon>201711131243551_init.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
