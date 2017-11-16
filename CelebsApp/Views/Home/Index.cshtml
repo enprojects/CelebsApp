@@ -1,0 +1,26 @@
+﻿<div ng-controller="mainController">
+    <input type="button" ng-click="addCeleb()" class="btn btn-default" value="Add Celeb">
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Celeb Id</th>
+                <th>Celeb name</th>
+                <th>Celeb Age</th>
+                <th>Celeb Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="celeb in celebs" ng-click="crudOperation(celeb)">
+
+                <td> {{celeb.CelebId}}</td>
+                <td> {{celeb.CelebName}}</td>
+                <td> {{celeb.CelebAge}}</td>
+                 <td> {{celeb.CelebCountry}}</td>
+               
+            </tr>
+        </tbody>
+    </table>
+
+</div>

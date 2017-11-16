@@ -1,0 +1,61 @@
+﻿<div ng-form name="myForm">
+    <div class="modal-header">
+        <div class="cancel pull-right" ng-click="cancel()">
+            <span class="close">X</span>
+        </div>
+        <h3>Login In </h3>
+
+    </div>
+    <div class="modal-body">
+
+
+        <div class="row">
+
+            <div class="col-md-4 form-group"  >
+               
+             
+                <label for="#name" >Name: </label>
+                 <input   class="form-control" ng-model="celeb.CelebName" type="text" placeholder="Name.." id="name"
+                       name="inputCelebName" required>
+                <div class="alert alert-warning" ng-show="myForm.inputCelebName.$invalid && myForm.inputCelebName.$dirty">
+                   Name is required !
+                </div>
+            </div>
+          
+            
+              <div class="col-md-4  form-group">
+                <label for="#age" >Age: </label>
+                <input class="form-control"  ng-model="celeb.CelebAge" type="text"  name="inputCelebAge"  placeholder="Age.." id="age"
+                       required/>
+                <div class="alert alert-warning" ng-show="myForm.inputCelebAge.$invalid && myForm.inputCelebAge.$dirty">
+                   Age is required !
+                </div>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="#country">Country: </label>
+                  <input class="form-control"  ng-model="celeb.CelebCountry"
+                          type="text"
+                         id="country"
+                         placeholder="Country.."
+                       name="inputCelebCountry"
+                     >
+                <div  class="alert alert-warning" ng-show="myForm.inputCelebCountry.$invalid && myForm.inputCelebCountry.$dirty">
+                    Invalid number
+                </div>
+            </div>
+        </div>
+
+    </div>
+ 
+    <div class="modal-footer">
+        <div ng-hide="isHide">
+            <input type="button" class="btn btn-default btn-primary" ng-disabled="!myForm.$valid" ng-click="updateCeleb()" value="Update" />
+            <input type="button" class="btn btn-default btn-primary" ng-disabled="!myForm.$valid" ng-click="deleteCeleb()" value="Delete" />
+        </div>
+        <div ng-hide="!isHide">
+            <input type="button" class="btn btn-default btn-primary" ng-disabled="!myForm.$valid" ng-click="createCeleb()" value="Create" />
+        </div>
+    </div>
+
+</div>
