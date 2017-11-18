@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implemintation\GenericRepo.cs" />
-    <Compile Include="Inetrface\ICeleb.cs" />
+    <Compile Include="Inetrface\IGenericRepo.cs" />
     <Compile Include="Models\Celeb.cs" />
     <Compile Include="Models\ResponseObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

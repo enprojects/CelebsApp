@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DAL;
+using Application.Inetrface;
 
 namespace Application.Implemintation
 {
-    public class GenericRepo<T>
+    public class GenericRepo<T> : IGenericRepo<T>
         where T : class
     {
+
+        #region Properties
         private static IList<T> genericList;
         public static IList<T> GenericList
         {
@@ -23,12 +26,15 @@ namespace Application.Implemintation
             }
 
         }
-
+        #endregion
+        #region ctors
         public GenericRepo()
         {
             genericList = genericList ?? FileStreamer<IList<T>>.GetJsonDataFromFile();
 
         }
+        #endregion
+        #region Interface method
         public IEnumerable<T> Get(Func<T, bool> func = null)
         {
             if (func != null)
@@ -38,50 +44,54 @@ namespace Application.Implemintation
 
             return GenericList;
         }
-
         public bool Add(T obj)
         {
             GenericList.Add(obj);
             return Save();
         }
-
-        public bool Remove(Func<T, bool> func )
+        public bool Remove(Func<T, bool> func)
         {
-          var result = GenericList.ToList().FindIndex(ConvertToPredicate(func));
-            if (result > -1)
+            var result = FindIndexElement(func);
             {
-                GenericList.RemoveAt(result);
-                return Save();
+                if (result > -1)
+                {
+                    GenericList.RemoveAt(result);
+                    return Save();
+                }
             }
             return false;
         }
-
         public bool Update(Func<T, bool> func, T newObj)
         {
             var originCeleb = GenericList.FirstOrDefault(func);
             if (newObj != null)
             {
-                var result =  GenericList.ToList().FindIndex(ConvertToPredicate(func));
+                var result = FindIndexElement(func);
+
                 if (result > -1)
                 {
                     GenericList[result] = newObj;
                 }
-                
+
                 return Save();
             }
 
             return false;
         }
 
-        public static Predicate<T> ConvertToPredicate(Func<T, bool> func)
+        #endregion
+        #region private method
+        private int FindIndexElement(Func<T, bool> func)
         {
-            return new Predicate<T>(func);
+
+            return GenericList.ToList().FindIndex(new Predicate<T>(func));
         }
-        public bool Save()
+        private bool Save()
         {
 
             return FileStreamer<IList<T>>.SaveJsonObjectToFile(GenericList);
         }
+        #endregion
     }
 }
 
