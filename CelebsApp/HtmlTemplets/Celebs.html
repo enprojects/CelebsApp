@@ -1,0 +1,25 @@
+﻿<div style="margin-top:10px;">
+
+    <input class="form-control" placeholder="filtered name..    "  type="text" ng-model="searchBy"/>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Celeb Id</th>
+                <th>Celeb name</th>
+                <th>Celeb Age</th>
+                <th>Celeb Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="celeb in celebs | celebsFilter : searchBy" ng-click="cb(celeb)">
+
+                <td> {{celeb.CelebId}}</td>
+                <td> {{celeb.CelebName}}</td>
+                <td> {{celeb.CelebAge}}</td>
+                <td> {{celeb.CelebCountry}}</td>
+
+            </tr>
+        </tbody>
+    </table>
+
+</div>

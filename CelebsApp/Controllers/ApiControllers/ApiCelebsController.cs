@@ -1,4 +1,6 @@
-﻿ 
+﻿
+using Application.Models;
+using Application.Srvices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,56 +12,44 @@ namespace CelebsApp.Controllers.ApiControllers
 {
     public class ApiCelebsController : ApiController
     {
-        private CelebRepo celebRepo;
+        private CelebsService service;
 
         public ApiCelebsController()
         {
-            celebRepo = new CelebRepo();
+            service = new CelebsService();
         }
         public IEnumerable<Celeb> GetSCelebsData()
-        {// Test
-            return celebRepo.GetCelebs();
+        { 
+            return service.GetCelebsList();
         }
 
 
         [HttpPost]
         public ResponseObj Create(Celeb celeb)
         {
-            var result = celebRepo.AddCeleb(celeb);
+            var result = service.CreateCeleb(celeb);
             return new ResponseObj
             {
-                Success = result > 0
+                Success = result
             };
         }
 
 
         [HttpPost]
         public ResponseObj Edit(Celeb celeb)
-        {
-            var celebEdit = celebRepo
-                .GetCelebs(x => x.CelebId == celeb.CelebId)
-                .SingleOrDefault();
-
-            celebEdit.CelebName = celeb.CelebName;
-            celebEdit.CelebCountry = celeb.CelebCountry;
-            celebEdit.CelebAge = celeb.CelebAge;
-
-            var result = celebRepo.Save();
-
-            return new ResponseObj { Success = result > 0 };
+        { 
+            var result = service.EditCeleb(celeb);
+            return new ResponseObj {
+                Success = true
+            };
         }
 
 
         [HttpPost]
         public ResponseObj Delete(Celeb celeb)
         {
-            var celebToDelete = celebRepo
-                .GetCelebs(x => x.CelebId == celeb.CelebId)
-                .SingleOrDefault();
-
-            var result = celebRepo.DeleteCeleb(celebToDelete);
-
-            return new ResponseObj { Success = result > 0 };
+            var result =  service.DeleteCeleb(celeb);
+            return new ResponseObj { Success = result  };
         }
     }
 }

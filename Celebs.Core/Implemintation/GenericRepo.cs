@@ -2,70 +2,85 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using CelebsApp.Core.Models;
-using System.IO;
-using Newtonsoft.Json;
-using Celebs.Core.Data;
+using DAL;
 
-namespace Application
+namespace Application.Implemintation
 {
-    public class GenericRepo<T> 
+    public class GenericRepo<T>
         where T : class
     {
+        private static IList<T> genericList;
+        public static IList<T> GenericList
+        {
+            get
+            {
+                return genericList;
+            }
 
-        private readonly FileStreamer<T> streamer;
-        public static IList<T> ListOfCeleb;
+            private set
+            {
+                genericList = value;
+            }
+
+        }
 
         public GenericRepo()
         {
-            ListOfCeleb = null;// write on streamer util which serialaize string to json 
-                               // Check thread safe on save to file 
-                               // Change to DataRepoGeneric
-                               // Build on top og generic repository services layer
+            genericList = genericList ?? FileStreamer<IList<T>>.GetJsonDataFromFile();
+
         }
         public IEnumerable<T> Get(Func<T, bool> func = null)
         {
             if (func != null)
             {
-                return ListOfCeleb.Where(func);
+                return GenericList.Where(func);
             }
 
-            return ListOfCeleb;
+            return GenericList;
         }
 
         public bool Add(T obj)
         {
-            ListOfCeleb.Add(obj);
-            return  Save();
-        }
-
-        public bool Delete(T obj)
-        {
-            ListOfCeleb.Remove(obj);
+            GenericList.Add(obj);
             return Save();
         }
 
-        public bool Update(Func<T, bool>  func , T newObj )
+        public bool Remove(Func<T, bool> func )
         {
-            var originCeleb = Get(func)
-                        .FirstOrDefault();
-
-            if (originCeleb != null)
+          var result = GenericList.ToList().FindIndex(ConvertToPredicate(func));
+            if (result > -1)
             {
-                originCeleb = newObj;
+                GenericList.RemoveAt(result);
+                return Save();
+            }
+            return false;
+        }
+
+        public bool Update(Func<T, bool> func, T newObj)
+        {
+            var originCeleb = GenericList.FirstOrDefault(func);
+            if (newObj != null)
+            {
+                var result =  GenericList.ToList().FindIndex(ConvertToPredicate(func));
+                if (result > -1)
+                {
+                    GenericList[result] = newObj;
+                }
+                
                 return Save();
             }
 
             return false;
-            
         }
 
-
-        private bool Save()
+        public static Predicate<T> ConvertToPredicate(Func<T, bool> func)
         {
-            var celebs = JsonConvert.SerializeObject(ListOfCeleb);
-            return streamer.WriteToFile(celebs);
+            return new Predicate<T>(func);
+        }
+        public bool Save()
+        {
+
+            return FileStreamer<IList<T>>.SaveJsonObjectToFile(GenericList);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Celebs.Core
+namespace Application.Models
 {
     public class Celeb
     {
